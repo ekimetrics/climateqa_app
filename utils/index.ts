@@ -2,6 +2,15 @@ import { Message, OpenAIModel } from "@/types";
 import { createParser, ParsedEvent, ReconnectInterval } from "eventsource-parser";
 
 export const OpenAIStream = async (messages: Message[]) => {
+
+
+  const filteredMessages = messages.map(obj => {
+    return {
+      role: obj.role,
+      content: obj.content
+    };
+  });
+
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
@@ -18,7 +27,7 @@ export const OpenAIStream = async (messages: Message[]) => {
           role: "system",
           content: `You are a helpful, friendly, assistant.`
         },
-        ...messages
+        ...filteredMessages
       ],
       max_tokens: 800,
       temperature: 0.0,
@@ -27,6 +36,7 @@ export const OpenAIStream = async (messages: Message[]) => {
   });
 
   if (res.status !== 200) {
+    console.log(res)
     throw new Error("OpenAI API returned an error");
   }
 

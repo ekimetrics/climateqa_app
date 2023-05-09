@@ -1,3 +1,92 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: center; /* Add this property to center vertically */
+  list-style: none;
+  padding: 0;
+  width: 75%; /* Updated width */
+  margin: 0 auto; /* Add this property */
+  margin-top:10px;
+  font-size:12px;
+}
+
+.pagination__link {
+  flex-grow: 1;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  /* border: 1px solid #dee2e6; */
+  /* border-radius: 0.25rem; */
+  border-radius: 50%; /* Change this property to make it circular */
+  text-decoration: none;
+  color: #7394b1;
+  background-color: #fff;
+  cursor: pointer;
+  width: 36px; /* Add fixed width */
+  height: 36px; /* Add fixed height */
+  display: flex; /* Add this property to center the text */
+  justify-content: center; /* Add this property to center the text horizontally */
+  align-items: center; /* Add this property to center the text vertically */
+}
+
+/* .pagination__link--active {
+  border: 1px solid #dee2e6;
+  background-color: #cce9ff;
+  border-radius: 50%;
+  color: black;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.pagination__link--active {
+  /* color: #f0513c; */
+  color:#7394b1;
+}
+
+
+.pagination__link--disabled {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #fff;
+}
+
+  
+  .h-screen-custom{
+    height: calc(100vh - 156px);
+  }
+
+  /* Desktop */
+@media (min-width: 768px) { /* Adjust the value 768px to the desired breakpoint for switching between mobile and desktop */
+  .h-screen-custom {
+    height: calc(100vh - 210px);
+  }
+}
+
+  /* For WebKit browsers (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}

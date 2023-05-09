@@ -1,9 +1,14 @@
 import { Chat } from "@/components/Chat/Chat";
-import { Footer } from "@/components/Layout/Footer";
-import { Navbar } from "@/components/Layout/Navbar";
+import { Layout } from '@/components/Layout/Layout';
+import { SourceCard } from "@/components/SourceCard";
+import LeftPanel from "@/components/LeftPanel/LeftPanel";
+
 import { Message } from "@/types";
-import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
+
+
+const message=`Hi there! I'm ClimateQ&A, an AI assistant designed to answer climate and biodiversity related questions using references to the IPCC and IPBES reports. Ask me anything in the chat below or use popular questions!`
+
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -80,7 +85,8 @@ export default function Home() {
     setMessages([
       {
         role: "assistant",
-        content: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`
+        content: message,
+        followupQuestions:["What are the IPCC reports?","IPBES?"]
       }
     ]);
   };
@@ -93,45 +99,42 @@ export default function Home() {
     setMessages([
       {
         role: "assistant",
-        content: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`
+        content: message,
+        followupQuestions:["What are the IPCC reports?","IPBES?"]
       }
     ]);
   }, []);
 
+
   return (
-    <>
-      <Head>
-        <title>Chatbot UI</title>
-        <meta
-          name="description"
-          content="A simple chatbot starter kit for OpenAI's chat model using Next.js, TypeScript, and Tailwind CSS."
-        />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
-        <link
-          rel="icon"
-          href="/favicon.ico"
-        />
-      </Head>
-
-      <div className="flex flex-col h-screen">
-        <Navbar />
-
-        <div className="flex-1 overflow-auto sm:px-10 pb-4 sm:pb-10">
-          <div className="max-w-[800px] mx-auto mt-4 sm:mt-12">
-            <Chat
-              messages={messages}
-              loading={loading}
-              onSend={handleSend}
-              onReset={handleReset}
-            />
-            <div ref={messagesEndRef} />
-          </div>
+    <Layout title="ClimateQ&A" description="Ask climate-related questions to the IPCC reports with AI">
+      <div className="flex flex-col md:flex-row w-full h-full">
+        <div className="hidden md:block md:w-1/4 p-4">
+        {/* <div className="w-full md:w-1/4 p-4 md:order-1 order-2"> */}
+          <LeftPanel onReset={handleReset} onQuestionClick={handleSend} />
         </div>
-        <Footer />
+        <div className="w-full h-full md:w-1/2 px-2 md:px-0 pt-4 pb-0">
+          {/* Center panel */}
+          <Chat
+            messages={messages}
+            loading={loading}
+            onSend={handleSend}
+            onReset={handleReset}
+          />
+          <div ref={messagesEndRef} />
+        </div>
+        <div className="hidden md:block md:w-1/4 p-4">
+          <h3 className="text-lg font-semibold mb-4">Sources</h3>
+          <SourceCard
+            title="Doc 1 - Sample - Page 1"
+            content="Full Report. In: Climate Change 2022: Mitigation of Climate Change. Contribution of the WGIII to the AR6 of the IPCC page 506 [...] low-carbon as part of the country development objectives (Box 4.5)."
+            footerText="IPCC AR6 WGIII - 2021.pdf"
+            pdfLink="https://example.com/sample.pdf"
+            pageNumber={1}
+          />
+        </div>
       </div>
-    </>
+    </Layout>
+
   );
 }
